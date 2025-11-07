@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional number system converter supporting Binary, Decimal, Octal, Hexadecimal, Gray Code, BCD, and Excess-3 conversions">
+    <meta name="keywords" content="number converter, binary, hexadecimal, octal, decimal, calculator, gray code, BCD">
+    <meta name="author" content="NCC Pro">
+    <title>Number Converter Pro | Advanced Base Conversion Tool</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔢</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🔢</span>
+                <span class="logo-text">BaseXconvertor</span>
+            </div>
+            <div class="nav-menu">
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#converter" class="nav-link active">Converter</a></li>
+                    <li><a href="#codes" class="nav-link">Special Codes</a></li>
+                    <li><a href="#history" class="nav-link">History</a></li>
+                    <li><a href="#guide" class="nav-link">Guide</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">Number System</span> Converter
+            </h1>
+            <p class="hero-subtitle">Convert between Binary, Decimal, Octal, Hexadecimal, and special codes instantly</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalConversions">0</div>
+                    <div class="stat-label">Conversions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Number Systems</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Special Codes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Number Converter Section -->
+        <section class="card" id="converter">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span class="title-icon">🔄</span>
+                    Number System Converter
+                </h2>
+                <p class="card-description">Convert numbers between different number systems with ease</p>
+            </div>
+
+            <div class="card-body">
+                <!-- Conversion Display -->
+                <div class="conversion-display">
+                    <div class="base-badge from-base">
+                        <span class="badge-label">FROM</span>
+                        <span class="badge-value" id="fromBaseName">Decimal</span>
+                    </div>
+                    <div class="conversion-arrow">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                    <div class="base-badge to-base">
+                        <span class="badge-label">TO</span>
+                        <span class="badge-value" id="toBaseName">Binary</span>
+                    </div>
+                </div>
+
+                <!-- Input Section -->
+                <div class="input-group">
+                    <label class="input-label">
+                        <span>Input Number(s)</span>
+                        <span class="tooltip">
+                            <span class="help-icon">?</span>
+                            <span class="tooltip-text">Enter single number or comma-separated numbers for batch conversion</span>
+                        </span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="text" 
+                               id="inputNumber" 
+                               class="input-field" 
+                               placeholder="e.g., 42 or 10,20,30,40"
+                               autocomplete="off"
+                               spellcheck="false">
+                        <button class="input-action-btn" id="pasteBtn" title="Paste from clipboard">
+                            📋
+                        </button>
+                    </div>
+                    <div class="error-message" id="inputError"></div>
+                    <div class="input-hint">Tip: Use comma-separated values for batch conversion</div>
+                </div>
+
+                <!-- Base Selection Grid -->
+                <div class="base-grid">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>From Base</span>
+                            <span class="tooltip">
+                                <span class="help-icon">?</span>
+                                <span class="tooltip-text">Select the source number system</span>
+                            </span>
+                        </label>
+                        <select id="inputBase" class="select-field">
+                            <option value="2">Binary (Base 2)</option>
+                            <option value="8">Octal (Base 8)</option>
+                            <option value="10" selected>Decimal (Base 10)</option>
+                            <option value="16">Hexadecimal (Base 16)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>To Base</span>
+                            <span class="tooltip">
+                                <span class="help-icon">?</span>
+                                <span class="tooltip-text">Select the target number system</span>
+                            </span>
+                        </label>
+                        <select id="outputBase" class="select-field">
+                            <option value="2" selected>Binary (Base 2)</option>
+                            <option value="8">Octal (Base 8)</option>
+                            <option value="10">Decimal (Base 10)</option>
+                            <option value="16">Hexadecimal (Base 16)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="convertBtn">
+                        <span class="btn-icon">⚡</span>
+                        <span>Convert</span>
+                    </button>
+                    <button class="btn btn-secondary" id="swapBtn">
+                        <span class="btn-icon">🔄</span>
+                        <span>Swap</span>
+                    </button>
+                    <button class="btn btn-secondary" id="clearBtn">
+                        <span class="btn-icon">✖</span>
+                        <span>Clear</span>
+                    </button>
+                </div>
+
+                <!-- Result Section -->
+                <div class="result-section">
+                    <div class="result-header">
+                        <h3 class="result-title">Result</h3>
+                        <div class="result-actions">
+                            <button class="icon-btn" id="copyBtn" title="Copy to clipboard">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" id="shareBtn" title="Share result">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="18" cy="5" r="3"/>
+                                    <circle cx="6" cy="12" r="3"/>
+                                    <circle cx="18" cy="19" r="3"/>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-value" id="result">Ready to convert...</div>
+                    </div>
+                </div>
+
+                <!-- Batch Results -->
+                <div class="batch-results" id="batchResults"></div>
+
+                <!-- Export Options -->
+                <div class="export-section">
+                    <h4 class="export-title">Export Options</h4>
+                    <div class="btn-group">
+                        <button class="btn btn-outline" id="downloadTxt">
+                            <span class="btn-icon">📄</span>
+                            <span>Download TXT</span>
+                        </button>
+                        <button class="btn btn-outline" id="downloadCsv">
+                            <span class="btn-icon">📊</span>
+                            <span>Download CSV</span>
+                        </button>
+                        <button class="btn btn-outline" id="downloadJson">
+                            <span class="btn-icon">📦</span>
+                            <span>Download JSON</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Converter Section -->
+        <section class="card" id="codes">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span class="title-icon">🔐</span>
+                    Special Code Converter
+                </h2>
+                <p class="card-description">Convert between Binary, Gray Code, BCD, and Excess-3</p>
+            </div>
+
+            <div class="card-body">
+                <div class="code-selector">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>Select Code Type</span>
+                            <span class="tooltip">
+                                <span class="help-icon">?</span>
+                                <span class="tooltip-text">Choose the input code format for conversion</span>
+                            </span>
+                        </label>
+                        <div class="code-type-grid">
+                            <button class="code-type-btn active" data-type="binary">
+                                <div class="code-icon">01</div>
+                                <div class="code-name">Binary</div>
+                            </button>
+                            <button class="code-type-btn" data-type="gray">
+                                <div class="code-icon">⚪</div>
+                                <div class="code-name">Gray Code</div>
+                            </button>
+                            <button class="code-type-btn" data-type="bcd">
+                                <div class="code-icon">🔢</div>
+                                <div class="code-name">BCD</div>
+                            </button>
+                            <button class="code-type-btn" data-type="excess3">
+                                <div class="code-icon">+3</div>
+                                <div class="code-name">Excess-3</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>Enter Code</span>
+                        </label>
+                        <input type="text" 
+                               id="codeInput" 
+                               class="input-field code-input" 
+                               placeholder="e.g., 1010"
+                               autocomplete="off"
+                               spellcheck="false">
+                        <div class="error-message" id="codeError"></div>
+                        <div class="input-hint">Only binary digits (0 and 1) are allowed</div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="convertCodeBtn">
+                            <span class="btn-icon">⚡</span>
+                            <span>Convert Code</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Results -->
+                <div class="code-results-grid" id="codeResults"></div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section class="card" id="history">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span class="title-icon">📜</span>
+                    Conversion History
+                </h2>
+                <button class="btn btn-outline btn-sm" id="clearHistory">
+                    <span class="btn-icon">🗑️</span>
+                    <span>Clear All</span>
+                </button>
+            </div>
+
+            <div class="card-body">
+                <div class="history-section" id="historyList">
+                    <div class="history-empty">
+                        <div class="empty-icon">📭</div>
+                        <div class="empty-text">No conversions yet</div>
+                        <div class="empty-subtext">Start converting numbers above to see your history here!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guide Section -->
+        <section class="card" id="guide">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span class="title-icon">📚</span>
+                    Number Systems Guide
+                </h2>
+                <p class="card-description">Learn about different number systems and their applications</p>
+            </div>
+
+            <div class="card-body">
+                <div class="guide-grid">
+                    <div class="guide-item">
+                        <div class="guide-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">2</div>
+                        <h3 class="guide-title">Binary (Base 2)</h3>
+                        <p class="guide-text">Uses only 0 and 1. Foundation of all digital systems and computer operations.</p>
+                        <div class="guide-example">Example: 1010₂ = 10₁₀</div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-icon" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">8</div>
+                        <h3 class="guide-title">Octal (Base 8)</h3>
+                        <p class="guide-text">Uses digits 0-7. Commonly used in computing for file permissions and compact representation.</p>
+                        <div class="guide-example">Example: 12₈ = 10₁₀</div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-icon" style="background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);">10</div>
+                        <h3 class="guide-title">Decimal (Base 10)</h3>
+                        <p class="guide-text">Uses digits 0-9. The standard number system used in everyday life and mathematics.</p>
+                        <div class="guide-example">Example: 10₁₀</div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-icon" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);">16</div>
+                        <h3 class="guide-title">Hexadecimal (Base 16)</h3>
+                        <p class="guide-text">Uses 0-9 and A-F. Widely used in programming, colors, and memory addresses.</p>
+                        <div class="guide-example">Example: A₁₆ = 10₁₀</div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-icon" style="background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);">G</div>
+                        <h3 class="guide-title">Gray Code</h3>
+                        <p class="guide-text">Binary numeral system where successive values differ in only one bit. Used in error correction.</p>
+                        <div class="guide-example">Example: 1010₂ → 1111ᴳ</div>
+                    </div>
+
+                    <div class="guide-item">
+                        <div class="guide-icon" style="background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);">BCD</div>
+                        <h3 class="guide-title">BCD (Binary Coded Decimal)</h3>
+                        <p class="guide-text">Each decimal digit encoded separately as 4-bit binary. Used in digital displays and calculators.</p>
+                        <div class="guide-example">Example: 9₁₀ → 1001ᴮᶜᴰ</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Calculator Dock -->
+    <button class="calc-toggle" id="calcToggle" aria-label="Toggle calculator">
+        🧮
+    </button>
+    <aside class="calc-dock" id="calcDock">
+        <div class="calc-header">
+            <h3 class="calc-title">Quick Calculator</h3>
+            <button class="calc-close" id="calcClose">✕</button>
+        </div>
+        <div class="calc-display" id="calcDisplay">0</div>
+        <div class="calc-buttons">
+            <button class="calc-btn" data-value="7">7</button>
+            <button class="calc-btn" data-value="8">8</button>
+            <button class="calc-btn" data-value="9">9</button>
+            <button class="calc-btn operator" data-value="/">÷</button>
+            <button class="calc-btn" data-value="4">4</button>
+            <button class="calc-btn" data-value="5">5</button>
+            <button class="calc-btn" data-value="6">6</button>
+            <button class="calc-btn operator" data-value="*">×</button>
+            <button class="calc-btn" data-value="1">1</button>
+            <button class="calc-btn" data-value="2">2</button>
+            <button class="calc-btn" data-value="3">3</button>
+            <button class="calc-btn operator" data-value="-">−</button>
+            <button class="calc-btn" data-value="0">0</button>
+            <button class="calc-btn" data-value=".">.</button>
+            <button class="calc-btn equals" data-value="=">=</button>
+            <button class="calc-btn operator" data-value="+">+</button>
+            <button class="calc-btn clear" data-value="C">Clear</button>
+        </div>
+    </aside>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">✓</div>
+        <div class="toast-message"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-icon">🔢</span>
+                        <span class="logo-text">BaseXconvertor</span>
+                    </div>
+                    <p class="footer-description">Professional number system converter with advanced features</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/Nirmit-Angane/BaseXconvertor" target="_blank" rel="noopener">GitHub</a>
+                    <a href="#guide">Guide</a>
+                    <a href="#history">History</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BaseXconvertor. All rights reserved.</p>
+                <p>Made with ❤️ for developers and students</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
